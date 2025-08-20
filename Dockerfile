@@ -34,7 +34,7 @@ COPY . /var/www
 COPY --chown=www-data:www-data . /var/www
 
     # Install PHP dependencies
-    RUN composer install --optimize-autoloader --no-dev --no-scripts
+    RUN composer install --optimize-autoloader --no-dev --no-scripts --no-interaction
 
     # Install Node.js dependencies and build assets
     RUN npm ci && npm run build
