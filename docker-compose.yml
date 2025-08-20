@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: batanghari-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - batanghari-network
+
+  webserver:
+    image: nginx:alpine
+    container_name: batanghari-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - batanghari-network
+
+  db:
+    image: mysql:8.0
+    container_name: batanghari-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: batanghari_db
+      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      MYSQL_PASSWORD: your_mysql_password
+      MYSQL_USER: batanghari_user
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - batanghari-network
+
+networks:
+  batanghari-network:
+    driver: bridge

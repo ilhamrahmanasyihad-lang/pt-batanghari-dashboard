@@ -1,0 +1,36 @@
+name: batanghari-indah-negeri
+service:
+  name: web
+  type: web
+  ports:
+    - port: 9000
+      protocol: http
+  routes:
+    - path: /
+      protocol: http
+  env:
+    - name: APP_ENV
+      value: production
+    - name: APP_DEBUG
+      value: false
+    - name: LOG_CHANNEL
+      value: stderr
+    - name: LOG_LEVEL
+      value: info
+    - name: BROADCAST_DRIVER
+      value: log
+    - name: CACHE_DRIVER
+      value: file
+    - name: FILESYSTEM_DISK
+      value: local
+    - name: QUEUE_CONNECTION
+      value: sync
+    - name: SESSION_DRIVER
+      value: file
+    - name: SESSION_LIFETIME
+      value: "120"
+  build:
+    builder: dockerfile
+  dockerfile: Dockerfile
+  regions:
+    - sin

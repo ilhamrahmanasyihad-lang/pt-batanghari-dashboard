@@ -1,0 +1,35 @@
+app = "batanghari-indah-negeri"
+primary_region = "sin"
+
+[build]
+
+[env]
+  APP_ENV = "production"
+  APP_DEBUG = "false"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  BROADCAST_DRIVER = "log"
+  CACHE_DRIVER = "file"
+  FILESYSTEM_DISK = "local"
+  QUEUE_CONNECTION = "sync"
+  SESSION_DRIVER = "file"
+  SESSION_LIFETIME = "120"
+
+[http_service]
+  internal_port = 9000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/"
+
+[mounts]
+  source = "batanghari_storage"
+  destination = "/var/www/storage"
